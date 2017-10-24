@@ -4,12 +4,13 @@
 
 <div class="row">
     <div class="col-md-4">
-        <h2>Select files to download</h2>
+        <h2>Files to download</h2>
         @using (Html.BeginForm("DownloadFiles", "Home", FormMethod.Post, new { @id = "theForm", enctype = "multipart/form-data" }))
         {
             foreach (var f in ViewBag.files)
             {
-                <p><input type="checkbox" name="chkselect" value="@f.Value" />@f.Text</p>
+                <p>@f.Text</p>
+                @*<p><input type="checkbox" name="chkselect" value="@f.Value" />@f.Text</p>*@
             }
 
         <p><input type="submit" value="Download" class="btn btn-default" /></p>

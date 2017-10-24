@@ -29,6 +29,28 @@ namespace drafts.Controllers
             using (ZipFile zip = new ZipFile())
             {
                 zip.AlternateEncodingUsage = ZipOption.AsNecessary;
+                string[] filePaths = Directory.GetFiles(Server.MapPath("~/files/"));
+                List<ListItem> files = new List<ListItem>();
+                foreach (string filePath in filePaths)
+                {
+                    zip.AddFile(filePath, "");
+                }
+                Response.Clear();
+                Response.BufferOutput = false;
+                string zipName = String.Format("Zip_{0}.zip", DateTime.Now.ToString("yyyy-MMM-dd-HHmmss"));
+                Response.ContentType = "application/zip";
+                Response.AddHeader("content-disposition", "attachment; filename=" + zipName);
+                zip.Save(Response.OutputStream);
+                Response.End();
+            }
+        }
+
+        [HttpPost]
+        public void DownloadFilesChkBox()
+        {
+            using (ZipFile zip = new ZipFile())
+            {
+                zip.AlternateEncodingUsage = ZipOption.AsNecessary;
                 string[] s = Request.Form["chkselect"].Split(',');
                 foreach (string value in s)
                 {
